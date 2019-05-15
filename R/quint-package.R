@@ -19,7 +19,7 @@
 #'   Package: \tab quint\cr
 #'   Type: \tab Package\cr
 #'   Version: \tab 2.0.1\cr
-#'   Date: \tab 2019-25-02\cr
+#'   Date: \tab 2019-15-05\cr
 #'   License: \tab GPL\cr
 #' }
 #'
