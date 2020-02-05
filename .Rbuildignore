@@ -1,4 +1,5 @@
 ^.*\.Rproj$
 ^\.Rproj\.user$
-^inst$
-^Meta$
+^doc$
+^build$
+^.travis.yml$
