@@ -44,7 +44,7 @@
 #' prquint1<-prune(quint1) #Prune tree to optimal size
 #'
 #' set.seed(3)
-#' bootquint1<-quint.bootstrap(prquint1, n_boot = 5) #
+#' bootquint1<-quint.bootstrapCI(prquint1, n_boot = 5) #compute the new confidence intervals
 #' summary(bootquint1) #Summary information of the obtained tree
 #' plot(bootquint1)}
 quint.bootstrapCI <- function(tree, n_boot, boot_r=1){
