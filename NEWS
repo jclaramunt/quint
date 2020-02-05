@@ -1,7 +1,25 @@
-Changes in QUINT Version 2.0-0 (2018-9-28)
+Changes in QUINT Version 2.1-0 (2020-2-3)
 ========================================
-* quint.validate is renewed. Root node trees are not considered and 
-* Typos in the help files are corrected.
+* New function quint.bootstrapCI(). It computes the confidence interval of the difference between treatments in each leaf using a bootstrap procedure.
+* quint class contains a new element: formula. It displays the formula used in the quint method.
+* quint() and prune.quint() are modified to deal with the new quint class.
+* help files are modified to include references to the new function quint.bootstrapCI().
+
+Changes in QUINT Version 2.0-2 (2019-9-4)
+========================================
+* New advise on reducing the number of leaves when standard error cannot be computed in quint function.
+
+Changes in QUINT Version 2.0-1 (2019-7-10)
+========================================
+* A vignette has been included.
+* A small bug has been fixed in prune.quint.
+* quint.validate is renewed. Bootstraps resulting in trees trees containing only the root node are not considered in the validation function. The total number of bootstraps used in the validation procedure is returned as $finalBootstraps.
+* nodeinfo.R has been modified by introducing lgamma in the computation of the effect size. This allow us not to use approximations for this computation.
+* quint.control includes new warnings in case a1 or a2 are below 2.
+* quint.control includes a new description of the argument dmin.
+* quint includes new warnings in case a1 or a2 are below 2. Modify the default values for a1 and a2 so that the minimum values are never below 2.
+* Help files are modified. Typos are corrected, references are updated and new information is included.
+
 
 Changes in QUINT Version 2.0-0 (2018-9-28)
 ========================================

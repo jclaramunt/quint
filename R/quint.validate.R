@@ -4,7 +4,7 @@
 #' QUINT tree which gives insight in the generalizability of the results.
 #'
 #' @param object a (pruned) QUINT tree object of class \code{quint}.
-#' @param B number of bootstrap samples. Default number is 10; for better accuracy B=1000
+#' @param B number of bootstrap samples. Default number is 10; for better accuracy \eqn{B}=1000
 #'  is recommended.
 #' @param allresults option to return an extended list of output. Default is set to FALSE.
 #'   See \emph{Value} section for details.
@@ -49,10 +49,11 @@
 #'
 #' @references Dusseldorp E. and Van Mechelen I. (2014). Qualitative interaction trees:
 #'   a tool to identify qualitative treatment-subgroup interactions.
-#'   \emph{Statistics in Medicine, 33(2)}, 219-237. DOI: 10.1002/sim.5933.
-#' @seealso \code{\link{quint}}, \code{\link{prune.quint}}, \code{\link{quint.control}}
+#'   \emph{Statistics in Medicine, 33}(2), 219-237. DOI: 10.1002/sim.5933.
+#' @seealso \code{\link{quint}}, \code{\link{prune.quint}}, \code{\link{quint.control}}, \code{\link{quint.bootstrapCI}}
 #'
-#' @examples data(bcrp)
+#' @examples
+#' \dontrun{data(bcrp)
 #' formula1<- I(cesdt1-cesdt3)~cond | nationality+marital+wcht1+age+
 #'   trext+comorbid+disopt1+uncomt1+negsoct1
 #'
@@ -64,13 +65,13 @@
 #'
 #' set.seed(3)
 #' valquint1<-quint.validate(prquint1, B = 5) #estimate the optimism by bootstrapping 5 times
-#' valquint1
+#' valquint1}
 #'
 #' @importFrom stats sd na.omit
 #'
 #' @export
 quint.validate <-function(object, B=10, allresults=FALSE){
-  
+
   if(is.null(object$si)){
     warning("quint.validate() does not work with quint objects without splitting information (si) ")
     print("No validation is possible. The tree contains only one leaf.")
@@ -87,7 +88,7 @@ quint.validate <-function(object, B=10, allresults=FALSE){
     controlB$maxl <- dim(object$li)[1]
     origdat <- cbind(y, tr, Xmat)
     origdat <- na.omit(origdat)
-    
+
     if(object$crit=='dm'){
       optdif<-matrix(0,nrow=B,ncol=2)#optimism in difference of means
       optdifmin<-matrix(0,nrow=B,ncol=2)
@@ -97,11 +98,11 @@ quint.validate <-function(object, B=10, allresults=FALSE){
         quintboot<-quint(data=origdat[indexboot[,i],], control=controlB)
         if(is.null(quintboot$si)){
           optdif[i,]<-NA;optdifmin[i,]<-NA;optdifmax[i,]<-NA
-          
+
         }else if(quintboot$si[1,1]!=0){
           origli<-predval(object=quintboot,newdata=origdat) #original data through bootstrap trees
           esbootdif<-quintboot$li$diff
-          
+
           ##bias in difference in means
           nnummaxdif<-quintboot$li$node[which(esbootdif==max(esbootdif))]  #search max and min raw diffs
           nnummindif<-quintboot$li$node[which(esbootdif==min(esbootdif))]
@@ -112,15 +113,15 @@ quint.validate <-function(object, B=10, allresults=FALSE){
           optdif[i,]<-NA;optdifmin[i,]<-NA;optdifmax[i,]<-NA
         }
       }
-      
+
       missingBs<-sum(is.na(optdif[,1]))
-      
+
       resultdif<-c(biasdif=mean(optdif[,1]-optdif[,2],na.rm=TRUE),
                    biasdifmin=mean(optdifmin[,1]-optdifmin[,2],na.rm=TRUE),
                    biasdifmax=mean(optdifmax[,1]-optdifmax[,2],na.rm=TRUE))
       mindex <- which.min(object$li[,8])
       maxdex <- which.max(object$li[,8])
-      
+
       bc_diff <- numeric(dim(object$li)[1])
       bc_diff[mindex] <- object$li[mindex, 8]-as.numeric(resultdif['biasdifmin'])
       bc_diff[maxdex] <- object$li[maxdex, 8]-as.numeric(resultdif['biasdifmax'])
@@ -133,7 +134,7 @@ quint.validate <-function(object, B=10, allresults=FALSE){
         return(extendedobject)
       }
     }
-    
+
     if(object$crit=='es'){
       optd<-matrix(0,nrow=B,ncol=2)#optimism in effect size
       optdmin<-matrix(0,nrow=B,ncol=2)
@@ -141,14 +142,14 @@ quint.validate <-function(object, B=10, allresults=FALSE){
       for (i in 1:B){
         print(i)
         quintboot<-quint(data=origdat[indexboot[,i],], control=controlB)
-        
+
         if(is.null(quintboot$si)){
           optd[i,]<-NA;optdmin[i,]<-NA;optdmax[i,]<-NA
-          
+
         }else if(quintboot$si[1,1]!=0){
           origli<-predval(object=quintboot,newdata=origdat) #original data through bootstrap trees
           esbootd<-quintboot$li$d
-          
+
           ##bias in effect size
           nnummaxd<-quintboot$li$node[which(esbootd==max(esbootd))]  #search max and min effect sizes
           nnummind<-quintboot$li$node[which(esbootd==min(esbootd))]
@@ -159,9 +160,9 @@ quint.validate <-function(object, B=10, allresults=FALSE){
           optd[i,]<-NA;optdmin[i,]<-NA;optdmax[i,]<-NA
         }
       }
-      
+
       missingBs<-sum(is.na(optd[,1]))
-      
+
       resultd<-c(biasd=mean(optd[,1]-optd[,2],na.rm=TRUE),
                  biasdmin=mean(optdmin[,1]-optdmin[,2],na.rm=TRUE),
                  biasdmax=mean(optdmax[,1]-optdmax[,2],na.rm=TRUE))
