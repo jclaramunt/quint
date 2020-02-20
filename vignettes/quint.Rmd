@@ -85,20 +85,33 @@ using the **prune** function.
 quint1pr <- prune(quint1)
 ```
 
+Here, if you consider that the standard errors of the mean difference are very small (and therefore
+the CI), then we should use the function **quint.bootstrapCI**, which estimates the confidence intervals of the mean difference in each leaf using a bootstrap-based algorithm. 
+
+```{r echo=TRUE, include=TRUE}
+quint1pr_bootCI <- quint.bootstrapCI(quint1,n_boot = 5)
+```
+
+
 To obtain the most interesting information about the results of the method we should
 use the **summary** function.
 
 ```{r echo=TRUE, include=TRUE}
-summary(quint1pr)
+summary(quint1pr)  #without bootstrap-based confidence intervals 
+summary(quint1pr_bootCI) #with bootstrap-based confidence intervals 
 ```
 
 Another form of obtaining information about the solution is to **plot** the pruned tree.
 
 ```{r echo=TRUE, include=TRUE, fig.width=7.5, fig.height=6}
-plot(quint1pr)
+plot(quint1pr) #without bootstrap-based confidence intervals 
+plot(quint1pr_bootCI) #with bootstrap-based confidence intervals 
 ```
 
 
 With these results we can conclude that the first treatment (nutrition) works better than the second treatment (education) for patients with dispositional optimism at baseline (disopt1)  below or equal to 18.5, negative social interaction at baseline (negsoct1) greater than 5.5 and a treatment extensiveness index (trext) less or equal than -0.76. Treatment 2 (education) works better for patients with disopt1 between 18.5 and 21.5, and patients with disopt1 less or equal than 18.5 and negsoct1 less or equal than 5.5. The rest of the patients could be assigned to any of the two treatments as the treatment effect does not differ for them according to quint. 
 
 *The results might be slightly different for R versions below 3.6.0.*
+
+
+

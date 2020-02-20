@@ -117,6 +117,8 @@ quint<- function(formula, data, control=NULL){
   #rest of the columns in dataframe are the predictors
   #maxl: maximum total number of leaves (terminal nodes) of the final tree: Lmax
 
+  orig_data<-data
+
   dat <- as.data.frame(data)
   if(missing(formula) || is.null(formula)) {
     y <- dat[, 1]
@@ -258,7 +260,7 @@ quint<- function(formula, data, control=NULL){
     colnames(leaf.info) <- c("node","#(T=1)", "meanY|T=1", "SD|T=1","#(T=2)", "meanY|T=2","SD|T=2","d","se","class")
     rownames(leaf.info) <- c("Leaf 1")
     object <- list(call = match.call(), crit = crit, control = control,
-                   indexboot = NULL, data = dat, si = NULL, fi = NULL, li = leaf.info, nind = Gmat,
+                   indexboot = NULL, data = dat, orig_data = orig_data, si = NULL, fi = NULL, li = leaf.info, nind = Gmat,
                    siboot = NULL, formula = formula, pruned=FALSE)
     class(object)<-"quint"
     return(object)
@@ -460,7 +462,7 @@ quint<- function(formula, data, control=NULL){
 
   if(control$Boot==FALSE){
     object <- list(call=match.call(), crit=crit, control=control,
-                   data=dat, si=si, fi=allresults[,c(1:2,6:8)], li=endinf, nind=Gmat[,index], formula = formula, pruned=FALSE)
+                   data = dat, orig_data = orig_data, si=si, fi=allresults[,c(1:2,6:8)], li=endinf, nind=Gmat[,index], formula = formula, pruned=FALSE)
   }
   if(control$Boot==TRUE){
     nam <- c("parentnode", "splittingvar", "splitpoint",
@@ -468,7 +470,7 @@ quint<- function(formula, data, control=NULL){
              "checkcard", "opt")
     dimnames(allresultsboot) <- list(NULL, nam, NULL)
     object <- list(call = match.call(), crit = crit, control = control,
-                   indexboot = indexboot, data = dat, si = si, fi = allresults[, c(1:2, 6:11)], li = endinf, nind = Gmat[, index],
+                   indexboot = indexboot, data = dat, orig_data = orig_data, si = si, fi = allresults[, c(1:2, 6:11)], li = endinf, nind = Gmat[, index],
                    siboot = allresultsboot, formula = formula, pruned=FALSE)                                               #11
   }
   class(object) <- "quint"
