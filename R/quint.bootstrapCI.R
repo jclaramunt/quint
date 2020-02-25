@@ -80,10 +80,15 @@ quint.bootstrapCI <- function(tree, n_boot, boot_r=1){
   boot_matrix_d <- matrix(nrow = n_boot, ncol = nleaves_orig)
   boot_nleaves <- numeric(n_boot)
   #Start bootstrapping
-  for (n in 1:n_boot){
+
+
+  n<-1
+  errors<-0
+  #for (n in 1:n_boot){
+  while(n<=n_boot){
     sampled_rows<-sample(nrow(transf_data), boot_r*nrow(transf_data), replace = TRUE)
     bsample <- data[sampled_rows, ]
-    transf_bsample<- transf_data[sampled_rows, ] #Here like transf_data, but with the bsample
+    transf_bsample<- transf_data[sampled_rows, ]
     #print(head(sample))
     control2 <- tree$control
     T_samp_unpruned <- quint(model_formula, bsample, control=control2)
@@ -131,14 +136,31 @@ quint.bootstrapCI <- function(tree, n_boot, boot_r=1){
     mu_G1 <- numeric(nleaves_orig)
     mu_G2 <- numeric(nleaves_orig)
     d_mu <- numeric(nleaves_orig)
-    for (i in 1:ncol(matrix_treat1)){
-      mu_G1[i] <- sum(matrix_treat1[,i]) / sum(matrixn_treat1[,i])#problem if denom is 0 check why this sum can be 0
-      mu_G2[i]<- sum(matrix_treat2[,i]) / sum(matrixn_treat2[,i])#problem if denom is 0 check why this sum can be 0
-      d_mu[i] <- mu_G1[i] -  mu_G2[i]
+    if(sum(matrixn_treat1[,i])==0 || sum(matrixn_treat2[,i])==0){
+
+      if(errors==4){
+        stop("The bootstrap procedure produces NaNs. Increase the minimal sample size of each treatment in every leaf (parameters a1 and a2) in quint.control and number of bootstraps. Afterwards, run the quint functions again.")
+      }
+      errors<-errors+1
+      n<-n
+
+    }else{
+
+      for (i in 1:ncol(matrix_treat1)){
+        mu_G1[i] <- sum(matrix_treat1[,i]) / sum(matrixn_treat1[,i])#problem if denom is 0 check why this sum can be 0
+        mu_G2[i]<- sum(matrix_treat2[,i]) / sum(matrixn_treat2[,i])#problem if denom is 0 check why this sum can be 0
+        d_mu[i] <- mu_G1[i] -  mu_G2[i]
+      }
+      boot_matrix_G1[n,] <- mu_G1
+      boot_matrix_G2[n,] <- mu_G2
+      boot_matrix_d[n, ] <- d_mu
+
+      n<-n+1
     }
-    boot_matrix_G1[n,] <- mu_G1
-    boot_matrix_G2[n,] <- mu_G2
-    boot_matrix_d[n, ] <- d_mu
+
+
+
+
   }
 
   EvalOut<-EvalBoot(boot_matrix_d,tree)

@@ -132,6 +132,7 @@ prune.quint <- function(tree,pp=1,...){
     }
     besttree$formula <- object$formula
     besttree$pruned<-TRUE
+    besttree$orig_data<-object$orig_data
     class(besttree) <- "quint"
     return(besttree)
   }

@@ -42,6 +42,7 @@
 #'    B is denoted with \eqn{T}=2. Can display either the output for Difference
 #'    in Means (crit='dm') or Cohen's \emph{d} effect size (crit='es').}
 #'  \item{data}{the data used to grow the tree.}
+#'  \item{orig_data}{the original data used as input.}
 #'  \item{nind}{an \eqn{N} x \eqn{L} matrix indicating leaf membership.}
 #'  \item{siboot}{an \eqn{L} x 9 x \eqn{B} array with split information for each bootstrap sample:
 #'    C_boot = value of \eqn{C};
