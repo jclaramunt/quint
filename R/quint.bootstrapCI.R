@@ -45,6 +45,7 @@
 #'
 #' bootquint1<-quint.bootstrapCI(prquint1, n_boot = 3) #compute the new confidence intervals
 #' summary(bootquint1$tree) #Summary information of the obtained tree
+#' @export
 quint.bootstrapCI <- function(tree, n_boot, boot_r=1){
 
   dat <- as.data.frame(tree$orig_data)
