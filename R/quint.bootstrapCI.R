@@ -39,7 +39,7 @@
 #'
 #' set.seed(10)
 #' control1<-quint.control(maxl=5,B=2)
-#' quint1<-quint(formula1, data= subset(bcrp,cond<3),control=control1) #Grow a QUINT tree
+#' quint1<-quint(formula1, data= subset(bcrp,bcrp$cond<3),control=control1) #Grow a QUINT tree
 #'
 #' prquint1<-prune(quint1) #Prune tree to optimal size
 #'
@@ -51,10 +51,7 @@ quint.bootstrapCI <- function(tree, n_boot, boot_r=1){
   dat <- as.data.frame(tree$orig_data)
   data <- na.omit(dat)
 
-  # F1 <- Formula(tree$formula)
-  # mf1 <- model.frame(F1, data = data)
-  # cond<-mf1[, 2]
-  transf_data <- tree$data  #cbind(y=mf1[, 1], cond=mf1[, 2], mf1[, 3:dim(mf1)[2]]) #transformed data
+  transf_data <- tree$data
 
   PID <- 1:nrow(transf_data)
   transf_data <-cbind(transf_data,PID)
@@ -62,7 +59,7 @@ quint.bootstrapCI <- function(tree, n_boot, boot_r=1){
   model_formula <- tree$formula
   nleaves_orig <- nrow(tree$li)
   # Person ID number and Condition (which is always in the second column of the data set)
-  PID_Cond_orig <- as.data.frame(cbind(cond,PID))
+  PID_Cond_orig <- as.data.frame(cbind(transf_data[,2],PID))
   leaves_origTree_G1 <- list()
   leaves_origTree_G2 <- list()
 

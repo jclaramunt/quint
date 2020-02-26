@@ -20,7 +20,7 @@ Suggests: knitr, rmarkdown
 VignetteBuilder: knitr
 License: GPL-2
 LazyData: TRUE
-RoxygenNote: 6.1.1
+RoxygenNote: 7.0.2
 Author: Elise Dusseldorp [aut, cre, cph],
   Lisa Doove [aut],
   Jeanne van de Put [aut],
