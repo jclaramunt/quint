@@ -33,7 +33,7 @@
 #' @seealso \code{\link{quint}}, \code{\link{prune.quint}}, \code{\link{quint.control}}
 #'
 #' @examples
-#' data(bcrp)
+#' \dontrun{data(bcrp)
 #' formula1<- I(cesdt1-cesdt3)~cond | nationality+marital+wcht1+age+
 #'   trext+comorbid+disopt1+uncomt1+negsoct1
 #'
@@ -43,8 +43,9 @@
 #'
 #' prquint1<-prune(quint1) #Prune tree to optimal size
 #'
-#' bootquint1<-quint.bootstrapCI(prquint1, n_boot = 3) #compute the new confidence intervals
-#' summary(bootquint1$tree) #Summary information of the obtained tree
+#' bootquint1<-quint.bootstrapCI(prquint1, n_boot = 5) #compute the new confidence intervals
+#' summary(bootquint1$tree) #Summary information of the obtained tree}
+#'
 #' @export
 quint.bootstrapCI <- function(tree, n_boot, boot_r=1){
 

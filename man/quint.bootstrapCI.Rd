@@ -35,7 +35,7 @@ The details of this validaton procedure are described in "Instability of
   https://openaccess.leidenuniv.nl/handle/1887/83059)
 }
 \examples{
-data(bcrp)
+\dontrun{data(bcrp)
 formula1<- I(cesdt1-cesdt3)~cond | nationality+marital+wcht1+age+
   trext+comorbid+disopt1+uncomt1+negsoct1
 
@@ -45,8 +45,9 @@ quint1<-quint(formula1, data= subset(bcrp,bcrp$cond<3),control=control1) #Grow a
 
 prquint1<-prune(quint1) #Prune tree to optimal size
 
-bootquint1<-quint.bootstrapCI(prquint1, n_boot = 3) #compute the new confidence intervals
-summary(bootquint1$tree) #Summary information of the obtained tree
+bootquint1<-quint.bootstrapCI(prquint1, n_boot = 5) #compute the new confidence intervals
+summary(bootquint1$tree) #Summary information of the obtained tree}
+
 }
 \references{
 Dusseldorp E. and Van Mechelen I. (2014). Qualitative interaction trees:
