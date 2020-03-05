@@ -57,7 +57,7 @@ prune.quint <- function(tree,pp=1,...){
   object <- tree
   if(is.null(object$si)) {
     besttree <- list(call = match.call(), crit = object$crit, control = object$control,
-                     data = object$data, si = object$si, fi = object$fi, li = object$li, nind = object$nind,
+                     data = object$data, orig_data = object$orig_data, si = object$si, fi = object$fi, li = object$li, nind = object$nind,
                      siboot = object$siboot, formula = object$formula, pruned=TRUE)
     class(besttree) <- "quint"
     return(besttree)
@@ -88,9 +88,9 @@ prune.quint <- function(tree,pp=1,...){
       if( ( any(abs(besttree$li$d[besttree$li$class==1]) >= con$dmin) &
           any(abs(besttree$li$d[besttree$li$class==2]) >= con$dmin) ) == FALSE) {
 
-        Gmat<-as.matrix(rep(1,dim(object$dat)[1]))
+        Gmat<-as.matrix(rep(1,dim(object$data)[1]))
         colnames(Gmat)<-c("1")
-        leaf.info<-ctmat(Gmat,y=object$dat[,1],tr=object$dat[,2],crit=object$crit)
+        leaf.info<-ctmat(Gmat,y=object$data[,1],tr=object$data[,2],crit=object$crit)
         leaf.info<-leaf.info[1,]
         class_quint<-ifelse(leaf.info[7]>=0,1,2)
         node<-0
@@ -98,7 +98,7 @@ prune.quint <- function(tree,pp=1,...){
         colnames(leaf.info) <- c("node","#(T=1)", "meanY|T=1", "SD|T=1","#(T=2)", "meanY|T=2","SD|T=2","d","se","class")
         rownames(leaf.info) <- c("Leaf 1")
         besttree <- list(call = match.call(), crit = object$crit, control = object$control,
-                        data = object$dat, si = NULL, fi = NULL, li = leaf.info, nind = Gmat,
+                        data = object$data, orig_data = object$orig_data, si = NULL, fi = NULL, li = leaf.info, nind = Gmat,
                          siboot = NULL, formula = object$formula, pruned=TRUE)
         class(besttree)<-"quint"
         warning("Best tree is the root node.")
@@ -114,9 +114,9 @@ prune.quint <- function(tree,pp=1,...){
                         (besttree$li[besttree$li[,10]==2, 5] - 1) * besttree$li[besttree$li[,10]==2, 7] ^ 2) /
                        (sum(besttree$li[besttree$li[,10]==2, c(2, 5)]) - 2))) >= con$dmin)) == FALSE) {
 
-        Gmat<-as.matrix(rep(1,dim(object$dat)[1]))
+        Gmat<-as.matrix(rep(1,dim(object$data)[1]))
         colnames(Gmat)<-c("1")
-        leaf.info<-ctmat(Gmat,y=object$dat[,1],tr=object$dat[,2],crit=object$crit)
+        leaf.info<-ctmat(Gmat,y=object$data[,1],tr=object$data[,2],crit=object$crit)
         leaf.info<-leaf.info[1,]
         class_quint<-ifelse(leaf.info[7]>=0,1,2)
         node<-0
@@ -124,7 +124,7 @@ prune.quint <- function(tree,pp=1,...){
         colnames(leaf.info) <- c("node","#(T=1)", "meanY|T=1", "SD|T=1","#(T=2)", "meanY|T=2","SD|T=2","d","se","class")
         rownames(leaf.info) <- c("Leaf 1")
         besttree <- list(call = match.call(), crit = object$crit, control = object$control,
-                         data = object$dat, si = NULL, fi = NULL, li = leaf.info, nind = Gmat,
+                         data = object$data, orig_data = object$orig_data, si = NULL, fi = NULL, li = leaf.info, nind = Gmat,
                          siboot = NULL, formula = object$formula, pruned=TRUE)
         class(besttree)<-"quint"
         return(besttree)
@@ -132,6 +132,7 @@ prune.quint <- function(tree,pp=1,...){
     }
     besttree$formula <- object$formula
     besttree$pruned<-TRUE
+    besttree$orig_data<-object$orig_data
     class(besttree) <- "quint"
     return(besttree)
   }

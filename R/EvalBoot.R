@@ -12,9 +12,9 @@ EvalBoot <- function(dif_matrix, tree){
     # find quantiles 2.5 and 97.5
     samp_var <- var(dif_matrix[,i])
     sd_leaf[i] <- sqrt(samp_var)
-    est_dif <- tree$li$diff[i]
+    est_dif <- tree$li[i,8]#tree$li$diff[i] Column 8 can be either d or diff
     bias_leaf[i] <- est_dif - mean(dif_matrix[,i])
-    low_border <- est_dif - 1.96 * sd_leaf[i] #Addition Elise: also use 1.96 here (as wit naive method)
+    low_border <- est_dif - 1.96 * sd_leaf[i] #Addition Elise: also use 1.96 here (as with naive method)
     up_border <- est_dif + 1.96 * sd_leaf[i]
     CIs_leaf[i, 1] <- low_border
     CIs_leaf[i, 2] <- up_border

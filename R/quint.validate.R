@@ -68,7 +68,7 @@
 #' valquint1}
 #'
 #' @importFrom stats sd na.omit
-#'
+#' @importFrom Formula Formula
 #' @export
 quint.validate <-function(object, B=10, allresults=FALSE){
 

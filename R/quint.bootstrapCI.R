@@ -39,23 +39,28 @@
 #'
 #' set.seed(10)
 #' control1<-quint.control(maxl=5,B=2)
-#' quint1<-quint(formula1, data= subset(bcrp,cond<3),control=control1) #Grow a QUINT tree
+#' quint1<-quint(formula1, data= subset(bcrp,bcrp$cond<3),control=control1) #Grow a QUINT tree
 #'
 #' prquint1<-prune(quint1) #Prune tree to optimal size
 #'
-#' set.seed(3)
 #' bootquint1<-quint.bootstrapCI(prquint1, n_boot = 5) #compute the new confidence intervals
-#' summary(bootquint1) #Summary information of the obtained tree
-#' plot(bootquint1)}
+#' summary(bootquint1$tree) #Summary information of the obtained tree}
+#'
+#' @export
 quint.bootstrapCI <- function(tree, n_boot, boot_r=1){
-  data <- tree$data
-  PID <- c(1:nrow(data))
-  data <-cbind(data,PID)
-  ncol<-ncol(data)
+
+  dat <- as.data.frame(tree$orig_data)
+  data <- na.omit(dat)
+
+  transf_data <- tree$data
+
+  PID <- 1:nrow(transf_data)
+  transf_data <-cbind(transf_data,PID)
+  ncol<-ncol(transf_data)
   model_formula <- tree$formula
   nleaves_orig <- nrow(tree$li)
   # Person ID number and Condition (which is always in the second column of the data set)
-  PID_Cond_orig <- as.data.frame(cbind(data[, 2],PID))
+  PID_Cond_orig <- as.data.frame(cbind(transf_data[,2],PID))
   leaves_origTree_G1 <- list()
   leaves_origTree_G2 <- list()
 
@@ -74,8 +79,15 @@ quint.bootstrapCI <- function(tree, n_boot, boot_r=1){
   boot_matrix_d <- matrix(nrow = n_boot, ncol = nleaves_orig)
   boot_nleaves <- numeric(n_boot)
   #Start bootstrapping
-  for (n in 1: n_boot){
-    bsample <- data[sample(nrow(data), boot_r*nrow(data), replace = TRUE), ]
+
+
+  n<-1
+  errors<-0
+  #for (n in 1:n_boot){
+  while(n<=n_boot){
+    sampled_rows<-sample(nrow(transf_data), boot_r*nrow(transf_data), replace = TRUE)
+    bsample <- data[sampled_rows, ]
+    transf_bsample<- transf_data[sampled_rows, ]
     #print(head(sample))
     control2 <- tree$control
     T_samp_unpruned <- quint(model_formula, bsample, control=control2)
@@ -83,7 +95,7 @@ quint.bootstrapCI <- function(tree, n_boot, boot_r=1){
     #plot(T_samp)
     nleaves_samp <- nrow(T_samp$li)
     boot_nleaves[n] <- nleaves_samp #save the number of leaves of the pruned tree in the bootstrap sample
-    PID_Cond_samp <- as.data.frame(bsample[, c(2,ncol)])
+    PID_Cond_samp <- as.data.frame(transf_bsample[, c(2,ncol)])
     #create a cross-table: rows are the number of leaves of the bootstrap tree
     #and columns are number of leaves in original tree
     matrix_treat1 <- matrix(nrow = nleaves_samp, ncol = nleaves_orig)
@@ -123,14 +135,31 @@ quint.bootstrapCI <- function(tree, n_boot, boot_r=1){
     mu_G1 <- numeric(nleaves_orig)
     mu_G2 <- numeric(nleaves_orig)
     d_mu <- numeric(nleaves_orig)
-    for (i in 1:ncol(matrix_treat1)){
-      mu_G1[i] <- sum(matrix_treat1[,i]) / sum(matrixn_treat1[,i])
-      mu_G2[i]<- sum(matrix_treat2[,i]) / sum(matrixn_treat2[,i])
-      d_mu[i] <- mu_G1[i] -  mu_G2[i]
+    if(sum(matrixn_treat1[,i])==0 || sum(matrixn_treat2[,i])==0){
+
+      if(errors==4){
+        stop("The bootstrap procedure produces NaNs. Increase the minimal sample size of each treatment in every leaf (parameters a1 and a2) in quint.control and number of bootstraps. Afterwards, run the quint functions again.")
+      }
+      errors<-errors+1
+      n<-n
+
+    }else{
+
+      for (i in 1:ncol(matrix_treat1)){
+        mu_G1[i] <- sum(matrix_treat1[,i]) / sum(matrixn_treat1[,i])#problem if denom is 0 check why this sum can be 0
+        mu_G2[i]<- sum(matrix_treat2[,i]) / sum(matrixn_treat2[,i])#problem if denom is 0 check why this sum can be 0
+        d_mu[i] <- mu_G1[i] -  mu_G2[i]
+      }
+      boot_matrix_G1[n,] <- mu_G1
+      boot_matrix_G2[n,] <- mu_G2
+      boot_matrix_d[n, ] <- d_mu
+
+      n<-n+1
     }
-    boot_matrix_G1[n,] <- mu_G1
-    boot_matrix_G2[n,] <- mu_G2
-    boot_matrix_d[n, ] <- d_mu
+
+
+
+
   }
 
   EvalOut<-EvalBoot(boot_matrix_d,tree)
