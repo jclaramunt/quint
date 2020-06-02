@@ -108,7 +108,6 @@
 #' @importFrom stats model.frame IQR na.omit sd terms var
 #' @importFrom utils combn
 #'
-#' @exportClass quint
 #' @export
 quint<- function(formula, data, control=NULL){
   #Dataformat without use of formula:

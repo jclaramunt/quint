@@ -50,7 +50,6 @@
 #' @keywords tree
 #'
 #' @importFrom rpart prune
-#' @exportClass quint
 #' @export
 
 prune.quint <- function(tree,pp=1,...){
