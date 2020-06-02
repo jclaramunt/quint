@@ -15,7 +15,7 @@ Authors@R: c(person(given = "Elise", family = "Dusseldorp", role =
 Maintainer: Elise Dusseldorp <j.claramunt.gonzalez@fsw.leidenuniv.nl>
 Description: Grows a qualitative interaction tree. Quint is a tool for subgroup analysis, suitable for data from a two-arm randomized controlled trial.
 URL: https://doi.org/10.3758/s13428-015-0594-z
-Depends: R (>= 3.0.2), partykit, Formula, rpart, stats, grid, utils
+Depends: R (>= 3.0.2), partykit, Formula, rpart, stats, grid, utils, graphics
 Suggests: knitr, rmarkdown
 VignetteBuilder: knitr
 License: GPL-2
