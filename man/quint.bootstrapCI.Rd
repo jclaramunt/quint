@@ -46,10 +46,15 @@ quint1<-quint(formula1, data= subset(bcrp,bcrp$cond<3),control=control1) #Grow a
 prquint1<-prune(quint1) #Prune tree to optimal size
 
 bootquint1<-quint.bootstrapCI(prquint1, n_boot = 5) #apply the bootstrap procedure
-summary(bootquint1$tree) #the summary of the tree with the new standard errors obtained from the bootstrap procedure
-bootquint1$bootinfo #all results of the bootstrap procedure
-plot(bootquint1$tree) #plot wiht 95\\% confidence intervals using the new standard errors}
 
+#the summary of the tree with the new standard errors obtained from the bootstrap procedure
+summary(bootquint1$tree)
+
+#all results of the bootstrap procedure
+bootquint1$bootinfo
+
+#plot wiht 95\% confidence intervals using the new standard errors
+plot(bootquint1$tree) }
 }
 \references{
 Dusseldorp E. and Van Mechelen I. (2014). Qualitative interaction trees:
