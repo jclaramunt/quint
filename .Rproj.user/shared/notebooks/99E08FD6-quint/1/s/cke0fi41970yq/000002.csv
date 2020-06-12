@@ -1,0 +1,5 @@
+"0","quint1pr_bootCI <- quint.bootstrapCI(quint1,n_boot = 5)
+"
+"2","Error in structure(x, class = unique(c(""AsIs"", oldClass(x)))) : 
+  object 'cesdt1' not found
+"

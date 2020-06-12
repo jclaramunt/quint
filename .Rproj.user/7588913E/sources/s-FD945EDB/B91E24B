@@ -1,0 +1,22 @@
+{
+    "collab_server" : "",
+    "contents" : "",
+    "created" : 1581515007431.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "0",
+    "id" : "B91E24B",
+    "lastKnownWriteTime" : 1582196843,
+    "last_content_update" : 1582196843488,
+    "path" : "C:/Users/jclaramunt/surfdrive/quint/R/predict.quint.R",
+    "project_path" : "R/predict.quint.R",
+    "properties" : {
+        "cursorPosition" : "84,2",
+        "scrollLine" : "0"
+    },
+    "relative_order" : 11,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_source"
+}

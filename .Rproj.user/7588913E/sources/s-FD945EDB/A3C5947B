@@ -1,0 +1,22 @@
+{
+    "collab_server" : "",
+    "contents" : "",
+    "created" : 1580913269417.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "0",
+    "id" : "A3C5947B",
+    "lastKnownWriteTime" : 1591107148,
+    "last_content_update" : 1591107148235,
+    "path" : "C:/Users/jclaramunt/surfdrive/quint/R/quint.R",
+    "project_path" : "R/quint.R",
+    "properties" : {
+        "cursorPosition" : "109,2",
+        "scrollLine" : "0"
+    },
+    "relative_order" : 7,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_source"
+}

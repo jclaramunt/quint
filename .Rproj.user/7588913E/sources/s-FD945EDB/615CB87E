@@ -1,0 +1,22 @@
+{
+    "collab_server" : "",
+    "contents" : "",
+    "created" : 1581514926029.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "0",
+    "id" : "615CB87E",
+    "lastKnownWriteTime" : 1582196363,
+    "last_content_update" : 1582196363830,
+    "path" : "C:/Users/jclaramunt/surfdrive/quint/R/quint.validate.R",
+    "project_path" : "R/quint.validate.R",
+    "properties" : {
+        "cursorPosition" : "89,31",
+        "scrollLine" : "0"
+    },
+    "relative_order" : 10,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_source"
+}
