@@ -1,4 +1,4 @@
-ac0d8fc03a2b7d796cc9fe104f42876e *DESCRIPTION
+b52aa2f6f8f44efcef4af453b78514f2 *DESCRIPTION
 c5d223cf8a4af4ec62d1c54ed5f448dc *NAMESPACE
 f1fd2576e249e2ad5a283a527756f9ec *NEWS
 b7bb12ec3415b3b423423d5025cc3128 *R/Bootindex.R
@@ -22,7 +22,7 @@ bf995a190847cde7479051b9280cc96e *R/plotsupport.R
 bcd43f7078c75b6353b4526d68a31c55 *R/prune.quint.R
 49b125c0d6cf63f48ff048ed9d7adae1 *R/quint-package.R
 94330e767e0c553145fd7d21be001b18 *R/quint.R
-3890660c09d5e3da3133e29887ec29ff *R/quint.bootstrapCI.R
+c2fc782e8ac4a821d7adc85e87098ce2 *R/quint.bootstrapCI.R
 0f45d4ef7b2ae0309781a3f8ae893025 *R/quint.control.R
 e9e17651864183c6bbe5f6731c3c6b47 *R/quint.validate.R
 de454966917bde41444144d117b5681b *R/summary.quint.R
